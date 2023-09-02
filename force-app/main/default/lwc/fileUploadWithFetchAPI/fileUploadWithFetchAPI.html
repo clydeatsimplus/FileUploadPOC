@@ -1,0 +1,45 @@
+<!--
+  @description       : https://gist.github.com/darkacer/0636381626b7dd93fed3b81f76912cbf
+                     : https://salesforce.stackexchange.com/questions/340891/upload-and-store-50-mb-file-from-lwc
+                     : https://www.salesforcetroop.com/custom_file_upload_using_lwc
+                     : https://developer.salesforce.com/forums/?id=906F0000000DDgZIAW @ Limits for rest api blob inserts
+                     : https://salesforce.stackexchange.com/questions/401633/how-to-test-uploading-multipart-form-data-via-postman-file-not-getting-opened-c
+                     : https://salesforce.stackexchange.com/questions/132135/how-can-i-compose-a-multipart-form-data-request
+                     : https://stackoverflow.com/questions/35192841/how-do-i-post-with-multipart-form-data-using-fetch
+                     : https://www.youtube.com/watch?v=kOZFk1obYdY
+  @author            : C.T. - Simplus Delivery
+  @group             : 
+  @last modified on  : 09-02-2023
+  @last modified by  : C.T. - Simplus Delivery
+-->
+<!-- <template>
+    <div class="slds-form-element">
+        <span class="slds-form-element__label" id="file-selector-primary-label-101">Attachment</span>
+        <div class="slds-form-element__control">
+            <div class="slds-file-selector slds-file-selector_files">
+                <div class="slds-file-selector__dropzone">
+                    <input type="file" class="slds-file-selector__input slds-assistive-text" accept="image/png" id="file-upload-input-103" aria-labelledby="file-selector-primary-label-101 file-selector-secondary-label102" />
+                    <label class="slds-file-selector__body" for="file-upload-input-103" id="file-selector-secondary-label102">
+                        <span class="slds-file-selector__button slds-button slds-button_neutral">
+                            <svg class="slds-button__icon slds-button__icon_left" aria-hidden="true">
+                                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#upload"></use>
+                            </svg>Upload Files
+                        </span>
+                        <span class="slds-file-selector__text slds-medium-show">or Drop Files</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+</template> -->
+
+<template>
+    <lightning-input 
+        type="file" 
+        label="Attach receipt" 
+        name="fileUploader"
+        accept={acceptedFormats}
+        onchange={handleUploadFinished}>
+    </lightning-input>
+    <lightning-button variant="brand" label="Save file" title="Save file" onclick={handleClick} class="slds-m-left_x-small"></lightning-button>
+</template>
