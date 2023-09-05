@@ -9,6 +9,7 @@
                      : https://www.youtube.com/watch?v=kOZFk1obYdY
                      : https://refine.dev/blog/how-to-multipart-upload/#how-to-multipart-upload-with-refine
                      : https://jungleeforce.com/tag/formdata/
+                     : https://salesforce.stackexchange.com/questions/394829/file-content-is-missing-while-uploading-as-multipart-form-data-using-fetch-api
   @author            : C.T. - Simplus Delivery
   @group             : 
   @last modified on  : 09-04-2023
@@ -43,7 +44,7 @@
                 label="Attach receipt" 
                 name="fileUploader"
                 accept={acceptedFormats}
-                onchange={handleFileChange}>
+                onchange={handleUploadFinished}>
             </lightning-input>
             <lightning-button variant="brand" label="Save file" title="Save file" onclick={handleClick} class="slds-m-left_x-small"></lightning-button>
         </form>
