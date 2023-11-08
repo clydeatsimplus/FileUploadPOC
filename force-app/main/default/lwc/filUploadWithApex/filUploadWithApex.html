@@ -1,0 +1,19 @@
+<!--
+  @description       : 
+  @author            : C.T. - Simplus Delivery
+  @group             : 
+  @last modified on  : 11-09-2023
+  @last modified by  : C.T. - Simplus Delivery
+-->
+<template>
+    <lightning-card title="File upload using Apex">
+        <lightning-input 
+            type="file" 
+            label="Attach receipt" 
+            name="fileUploader"
+            accept={acceptedFormats}
+            onchange={handleUploadFinished}>
+        </lightning-input>
+        <lightning-button variant="brand" label="Save file" title="Save file" onclick={handleClick} class="slds-m-left_x-small"></lightning-button>
+    </lightning-card>
+</template>
