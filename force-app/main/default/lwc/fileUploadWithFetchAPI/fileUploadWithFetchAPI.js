@@ -9,6 +9,7 @@ export default class FileUploadWithFetchAPI extends LightningElement {
     accessToken = '00D5j00000CuOHk!AR8AQE2XMd3YJRxjVrAWYX56.A.zYRkeYE6rOWvjZ8WsIQGhkxXaJGNDQSI4Xc7KfppiGc.aZSgko9Xnkl3rL1UtLRMU5QdM';
     body;
     @track acceptedFormats = ['.xls', '.xlsx'];
+    fileName;
 
     insertContentVersion(){
         fetch(this.endpoint, 
@@ -41,6 +42,7 @@ export default class FileUploadWithFetchAPI extends LightningElement {
     }
 
     async readData(file){
+        this.fileName = file.name;
         var reader = new FileReader();
         reader.onload = event => {
             var base64 = reader.result.split(',');

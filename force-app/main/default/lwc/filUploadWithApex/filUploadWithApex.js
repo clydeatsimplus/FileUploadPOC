@@ -7,6 +7,7 @@ let XLS = {};
 
 export default class FilUploadWithApex extends LightningElement {
     @track acceptedFormats = ['.xls', '.xlsx'];
+    fileName;
 
     connectedCallback() {
         Promise.all([
@@ -41,6 +42,7 @@ export default class FilUploadWithApex extends LightningElement {
     }
 
     ExcelToJSON(file){
+        this.fileName = file.name;
         var reader = new FileReader();
         reader.onload = event => {
             var data=event.target.result;
