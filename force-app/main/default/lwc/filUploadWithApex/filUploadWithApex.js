@@ -1,68 +1,48 @@
-import { LightningElement, track } from 'lwc';
-import apex_ReadFile from '@salesforce/apex/FilUploadWithApexCtrl.readFile';
-import sheetjs from '@salesforce/resourceUrl/sheetjs';
-import { loadScript } from 'lightning/platformResourceLoader';
-
-let XLS = {};
+import { LightningElement, api } from 'lwc';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import apex_INSERT_FILE from '@salesforce/apex/FilUploadWithApexCtrl.insertFile'
 
 export default class FilUploadWithApex extends LightningElement {
-    @track acceptedFormats = ['.xls', '.xlsx'];
+    acceptedFormats = ['.xls', '.xlsx'];
     fileName;
 
-    connectedCallback() {
-        Promise.all([
-            loadScript(this, sheetjs)
-        ]).then(() => {
-            XLS = XLSX
-            //this.readFromFile()
+    @api recordId;
+    fileData;
+
+    handleUploadFinished(event) {
+        const file = event.target.files[0]
+        this.fileName = file.name;
+        var reader = new FileReader()
+        reader.onload = () => {
+            var base64 = reader.result.split(',')[1]
+            this.fileData = {
+                'filename': file.name,
+                'base64': base64,
+                'recordId': this.recordId
+            }
+            console.log(this.fileData)
+        }
+        reader.readAsDataURL(file)
+    }
+    
+    handleClick(){
+        const {base64, filename, recordId} = this.fileData
+        apex_INSERT_FILE({ base64, filename, recordId }).then(result=>{
+            this.fileData = null
+            let title = `${filename} uploaded successfully!!`
+            this.toast(title, "success")
+        }).catch(error=>{
+            this.fileData = null
+            let title = `${filename} upload ERROR!!`
+            this.toast(title, "error")
         })
     }
 
-
-    async readFromFile() {
-        let returnVal = await apex_ReadFile({recordId:'test'})
-        let wb = XLS.read(returnVal, {type:'base64', WTF:false});
-        console.log('this.to_json(wb)',this.to_json(wb));
-    }
-
-    to_json(workbook) {
-        var result = {};
-		workbook.SheetNames.forEach(function(sheetName) {
-			var roa = XLS.utils.sheet_to_json(workbook.Sheets[sheetName], {header:1});
-			if(roa.length) result[sheetName] = roa;
-		});
-		return JSON.stringify(result, 2, 2);
-    }
-
-    handleUploadFinished(event){
-        const uploadedFiles = event.detail.files;
-        if(uploadedFiles.length > 0) {   
-            this.ExcelToJSON(uploadedFiles[0])
-        }
-    }
-
-    ExcelToJSON(file){
-        this.fileName = file.name;
-        var reader = new FileReader();
-        reader.onload = event => {
-            var data=event.target.result;
-            var workbook=XLS.read(data, {
-                type: 'binary'
-            });
-            var XL_row_object = XLS.utils.sheet_to_row_object_array(workbook.Sheets["Sheet1"]);
-            var data = JSON.stringify(XL_row_object);
-            console.log('data',data);
-        };
-        reader.onerror = function(ex) {
-            this.error=ex;
-            this.dispatchEvent(
-                new ShowToastEvent({
-                    title: 'Error while reding the file',
-                    message: ex.message,
-                    variant: 'error',
-                }),
-            );
-        };
-        reader.readAsBinaryString(file);
+    toast(title, toastType){
+        const toastEvent = new ShowToastEvent({
+            title, 
+            variant: toastType
+        })
+        this.dispatchEvent(toastEvent)
     }
 }

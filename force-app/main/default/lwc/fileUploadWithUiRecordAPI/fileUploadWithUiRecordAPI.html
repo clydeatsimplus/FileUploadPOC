@@ -1,0 +1,21 @@
+<!--
+  @description       : 
+  @author            : C.T. - Simplus Delivery
+  @group             : 
+  @last modified on  : 11-09-2023
+  @last modified by  : C.T. - Simplus Delivery
+  https://gist.github.com/surajp/b7339d3e9c56b41279b45845b4e63dd4
+-->
+<template>
+    <lightning-card title="File upload using UI Record API">
+        <lightning-input 
+            type="file" 
+            label="Attach receipt" 
+            name="fileUploader"
+            accept={acceptedFormats}
+            onchange={handleUploadFinished}>
+        </lightning-input>
+        {fileName}
+        <lightning-button variant="brand" label="Save file" title="Save file" onclick={handleClick} class="slds-m-left_x-small"></lightning-button>
+    </lightning-card>
+</template>
