@@ -1,12 +1,8 @@
 import { LightningElement, track } from 'lwc';
-import sheetjs from '@salesforce/resourceUrl/sheetjs';
-import { loadScript } from 'lightning/platformResourceLoader';
-
-let XLS = {};
 
 export default class FileUploadWithFetchAPI extends LightningElement {
     endpoint = 'https://fileuploadpoc-dev-ed.develop.my.salesforce.com/services/data/v57.0/sobjects/ContentVersion';
-    accessToken = '00D5j00000CuOHk!AR8AQE2XMd3YJRxjVrAWYX56.A.zYRkeYE6rOWvjZ8WsIQGhkxXaJGNDQSI4Xc7KfppiGc.aZSgko9Xnkl3rL1UtLRMU5QdM';
+    accessToken = '00D5j00000CuOHk!AR8AQE813ghoa6c1OOzBdMlVBghmyI6X.IUFw1FFORciaMbT8TKRk96iklkgEThqjGbZStcj9QCiYHlLqEJUqZ4qVvHDhrdn';
     body;
     @track acceptedFormats = ['.xls', '.xlsx'];
     fileName;
@@ -25,15 +21,6 @@ export default class FileUploadWithFetchAPI extends LightningElement {
         .catch(error => console.log('error', error))
     }
 
-
-    connectedCallback() {
-        Promise.all([
-            loadScript(this, sheetjs)
-        ]).then(() => {
-            XLS = XLSX
-        })
-    }
-
     handleUploadFinished(event){
         const uploadedFiles = event.detail.files;
         if(uploadedFiles.length > 0) {   
@@ -46,12 +33,7 @@ export default class FileUploadWithFetchAPI extends LightningElement {
         var reader = new FileReader();
         reader.onload = event => {
             var base64 = reader.result.split(',');
-            var bodyObject = {};
-            bodyObject.Title = 'Insert From LWC 1';
-            bodyObject.VersionData = window.btoa(base64);
-            bodyObject.PathOnClient = 'InsertedFromLWC1.xlsx';
-            bodyObject.ContentLocation = 'S';
-            this.body = JSON.stringify(bodyObject);
+            this.body = this.createRequestBodyAsJson(base64);
             
         };
         reader.onerror = function(ex) {
@@ -67,54 +49,17 @@ export default class FileUploadWithFetchAPI extends LightningElement {
         reader.readAsBinaryString(file);
     }
 
+    createRequestBodyAsJson(base64){
+        var bodyAsObject = {};
+        bodyAsObject.Title = 'Insert From LWC 1';
+        bodyAsObject.VersionData = window.btoa(base64);
+        bodyAsObject.PathOnClient = 'InsertedFromLWC1.xlsx';
+        bodyAsObject.ContentLocation = 'S';
+        
+        return JSON.stringify(bodyAsObject);
+    }
+
     handleClick(){
         this.insertContentVersion();
     }
-
-
-    // handleFileChange(event) {
-    //     const file = event.target.files[0];
-    //     const reader = new FileReader();
-    //     reader.onload = () => {
-    //         console.log('reader.result',reader.result);
-    //         const data = new Uint8Array(reader.result);
-    //         console.log('data',data);
-    //         const workbook = XLSX.read(data, { type: 'array' });
-    //         const sheetName = workbook.SheetNames[0];
-    //         const worksheet = workbook.Sheets[sheetName];
-    //         const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
-    //         console.log('jsonData',JSON.stringify(jsonData));
-    //         //this.postFormData(jsonData);
-    //     };
-    //     reader.readAsArrayBuffer(file);
-    //   }
-
-    // postFormData(data) {
-    //     const formData = new FormData();
-    //     formData.append('fileData', JSON.stringify(data));
-    //     formData.append('PathOnClient', 'test.xlsx');
-    //     formData.append('Title', 'Test File');
-    //     formData.append('VersionData', data);
-    //     console.log('formData', formData);
-    //     fetch(this.endpoint, {
-    //       method: 'POST',
-    //       body: formData,
-    //       headers: {
-    //         'Authorization': 'Bearer ' + this.accessToken,
-    //         'Content-Type': 'multipart/form-data'
-    //       }
-    //     })
-    //     .then(response => {
-    //       if (!response.ok) {
-    //         throw new Error('Network response was not ok');
-    //       }
-    //       return response.json();
-    //     })
-    //     .then(data => {
-    //       console.log(data);
-    //     })
-    //     .catch(error => {
-    //       console.error('There was a problem with the fetch operation:', error);
-    //     });
-    //   }
 }
