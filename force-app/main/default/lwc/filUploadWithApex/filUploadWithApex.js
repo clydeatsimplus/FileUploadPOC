@@ -32,6 +32,7 @@ export default class FilUploadWithApex extends LightningElement {
             let title = `${filename} uploaded successfully!!`
             this.toast(title, "success")
         }).catch(error=>{
+            console.log('error', error);
             this.fileData = null
             let title = `${filename} upload ERROR!!`
             this.toast(title, "error")

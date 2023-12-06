@@ -2,7 +2,7 @@
  * @description       : 
  * @author            : C.T. - Simplus Delivery
  * @group             : 
- * @last modified on  : 11-09-2023
+ * @last modified on  : 12-06-2023
  * @last modified by  : C.T. - Simplus Delivery
 **/
 public with sharing class FilUploadWithApexCtrl {
@@ -39,10 +39,13 @@ public with sharing class FilUploadWithApexCtrl {
    */
    @AuraEnabled
    public static String insertFile(String base64, String filename, String recordId) {
+        System.debug(base64);
+        System.debug(filename);
          ContentVersion cv = createContentVersion(base64, filename);
-         ContentDocumentLink cdl = createContentLink(cv.Id, recordId);
-         if (cv == null || cdl == null) { return null; }
-         return cdl.Id;
+         //ContentDocumentLink cdl = createContentLink(cv.Id, recordId);
+         //if (cv == null || cdl == null) { return null; }
+         //return cdl.Id;
+         return cv.Id;
    }
    /*
     * @method createContentVersion() [private]
