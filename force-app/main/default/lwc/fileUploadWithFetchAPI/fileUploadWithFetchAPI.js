@@ -6,7 +6,7 @@ export default class FileUploadWithFetchAPI extends LightningElement {
     body;
     @track acceptedFormats = ['.xls', '.xlsx'];
     fileName;
-
+    //[{"message":"; nested exception is: \n\tcommon.exception.ApiException: Maximum size of request reached. Maximum size of request is 52428800 bytes.","errorCode":"JSON_PARSER_ERROR"}]
     insertContentVersion(){
         fetch(this.endpoint, 
             {
