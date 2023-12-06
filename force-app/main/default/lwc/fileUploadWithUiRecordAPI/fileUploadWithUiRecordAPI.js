@@ -56,6 +56,7 @@ export default class FileUploadWithUiRecordAPI extends LightningElement {
             this.toast(title, "success")
         })
         .catch(error=>{
+            console.log('error', error);
             let title = `${this.fileName} upload ERROR!!`
             this.toast(title, "error")
         });
