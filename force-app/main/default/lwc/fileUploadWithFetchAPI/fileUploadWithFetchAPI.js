@@ -2,7 +2,7 @@ import { LightningElement, track } from 'lwc';
 
 export default class FileUploadWithFetchAPI extends LightningElement {
     endpoint = 'https://fileuploadpoc-dev-ed.develop.my.salesforce.com/services/data/v57.0/sobjects/ContentVersion';
-    accessToken = '00D5j00000CuOHk!AR8AQE813ghoa6c1OOzBdMlVBghmyI6X.IUFw1FFORciaMbT8TKRk96iklkgEThqjGbZStcj9QCiYHlLqEJUqZ4qVvHDhrdn';
+    accessToken = '00D5j00000CuOHk!AR8AQIKepGg4i9iyscZe_PvOAo6NxloJejK.WoqjUu.RLW5.u4Qkb0.Kbr.xMemnz0ctr.S8kNY7dN3MOSlHTS2_f586uXRg';
     body;
     @track acceptedFormats = ['.xls', '.xlsx'];
     fileName;
