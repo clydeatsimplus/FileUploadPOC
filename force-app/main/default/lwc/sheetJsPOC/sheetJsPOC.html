@@ -1,0 +1,23 @@
+<!--
+  @description       : 
+  @author            : C.T. - Simplus Delivery
+  @group             : 
+  @last modified on  : 11-18-2023
+  @last modified by  : C.T. - Simplus Delivery
+-->
+<template>
+    <lightning-card title="POC for reading excel files in LWC">
+        <lightning-input 
+        type="file" 
+        label="Attach receipt" 
+        name="fileUploader"
+        accept={acceptedFormats}
+        onchange={handleUploadFinished}>
+        </lightning-input>
+        <lightning-datatable
+                key-field="id"
+                data={data}
+                columns={columns}>
+        </lightning-datatable>
+    </lightning-card>
+</template>
